@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Add Product</title>
+        <script>
+            const save=()=>{
+                let pname= document.getElementById("pname").value;
+                let price= document.getElementById("price").value;
+                let qty= document.getElementById("qty").value;
+               
+
+                let newpro={ 
+                  "pname":pname,
+                  "price":price,
+                  "qty":qty
+                }
+               
+               let url="http://localhost:1234/productlist";
+                 let postdata={
+                    headers:{'Content-Type':'application/json'},
+                    method:"POST",
+                    body:JSON.stringify(newpro) // array to json
+                 }
+                 
+                 fetch(url,postdata)
+                 .then(response=>response.json())
+                 .then(proinfo=>{
+                   alert(proinfo.pname+ "Save Successfully !");
+                 })
+            }
+        </script> 
+    </head>
+       <body>
+            <table align="center" cellpadding="15">
+                <caption><h1>Enter Product Details</h1></caption>
+                <tr>
+                    <th>Product:</th>
+                    <td><input type="text" id="pname"/></td>
+                </tr>
+
+                <tr>
+                    <th>Price:</th>
+                    <td><input type="number" id="price"/></td>
+                </tr>
+
+                <tr>
+                    <th>Qty:</th>
+                    <td><input type="number" id="qty"/></td>
+                </tr>
+
+
+                <tr>
+                    <th colspan="2">
+                        <button onclick="save()">Save</button>
+                        <hr/>
+                        <a href="api1.html">Back To List</a>
+                    </th>
+                </tr>
+
+            </table>
+       </body>
+</html>

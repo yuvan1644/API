@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Edit Employee</title>
+        <script>
+
+         function getuserinfo(){
+            	const queryParams = new URLSearchParams(window.location.search);
+             	const id = queryParams.get('id');
+                 let url="http://localhost:1234/emplist/"+id;
+
+                 fetch(url)
+                 .then(response=>response.json())
+                 .then(empinfo=>{
+                     document.getElementById("fname").value = empinfo.empname;
+                     document.getElementById("mobile").value  = empinfo.mobile;
+                     document.getElementById("salary").value  = empinfo.salary;
+                     document.getElementById("city").value  = empinfo.city;
+
+                 })
+              }
+
+            const save=()=>{
+                let fname= document.getElementById("fname").value;
+                let mobile= document.getElementById("mobile").value;
+                let salary= document.getElementById("salary").value;
+                let city= document.getElementById("city").value;
+
+                let newemp={ 
+                  "empname":fname,
+                  "salary":salary,
+                  "city":city,
+                  "mobile":mobile
+                }
+               
+                const queryParams = new URLSearchParams(window.location.search);
+             	const id = queryParams.get('id');
+                 let url="http://localhost:1234/emplist/"+id;
+
+                 let postdata={
+                    headers:{'Content-Type':'application/json'},
+                    method:"PUT",
+                    body:JSON.stringify(newemp) // array to json
+                 }
+                 
+                 fetch(url,postdata)
+                 .then(response=>response.json())
+                 .then(empinfo=>{
+                   alert(empinfo.empname+ "Updated Successfully !");
+                 })
+
+                     document.getElementById("fname").value = "";
+                     document.getElementById("mobile").value  = "";
+                     document.getElementById("salary").value  = "";
+                     document.getElementById("city").value  = "";
+
+            }
+        </script> 
+    </head>
+       <body onload="getuserinfo()">
+            <table align="center" cellpadding="15">
+                <caption><h1>Edit Employee Details</h1></caption>
+                <tr>
+                    <th>Employee Name:</th>
+                    <td><input type="text" id="fname"/></td>
+                </tr>
+
+                <tr>
+                    <th>Mobile No:</th>
+                    <td><input type="number" id="mobile"/></td>
+                </tr>
+
+                <tr>
+                    <th>Salary:</th>
+                    <td><input type="number" id="salary"/></td>
+                </tr>
+
+                <tr>
+                    <th>City:</th>
+                    <td>
+                        <select id="city">
+                            <option>Choose</option>
+                            <option>Bangalore</option>
+                            <option>Madurai</option>
+                            <option>Chennai</option>
+                            <option>Mumbai</option>
+                            <option>Pune</option>
+                        </select>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th colspan="2">
+                        <button onclick="save()">Update</button>
+                        <hr/>
+                        <a href="api1.html">Back To List</a>
+                    </th>
+                </tr>
+
+            </table>
+       </body>
+</html>

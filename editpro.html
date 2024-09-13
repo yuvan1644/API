@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Edit product</title>
+        <script>
+
+         function getuserinfo(){
+            	const queryParams = new URLSearchParams(window.location.search);
+             	const id = queryParams.get('id');
+                 let url="http://localhost:1234/productlist/"+id;
+
+                 fetch(url)
+                 .then(response=>response.json())
+                 .then(proinfo=>{
+                     document.getElementById("pname").value =proinfo.pname;
+                     document.getElementById("price").value =proinfo.price;
+                     document.getElementById("qty").value =proinfo.qty;
+
+                 })
+              }
+
+            const save=()=>{
+                let pname= document.getElementById("pname").value;
+                let price= document.getElementById("price").value;
+                let qty= document.getElementById("qty").value;
+
+                let newpro={ 
+                  "pname":pname,
+                  "price":price,
+                  "qty":qty
+                }
+
+                const queryParams = new URLSearchParams(window.location.search);
+             	const id = queryParams.get('id');
+                 let url="http://localhost:1234/productlist/"+id;
+
+                 let postdata={
+                    headers:{'Content-Type':'application/json'},
+                    method:"PUT",
+                    body:JSON.stringify(newpro) // array to json
+                 }
+                 
+                 fetch(url,postdata)
+                 .then(response=>response.json())
+                 .then(proinfo=>{
+                   alert(proinfo.pname+ "Updated Successfully !");
+                 })
+
+            }
+        </script> 
+    </head>
+       <body onload="getuserinfo()">
+            <table align="center" cellpadding="15">
+                <caption><h1>Enter Product Details</h1></caption>
+                <tr>
+                    <th>Product:</th>
+                    <td><input type="text" id="pname"/></td>
+                </tr>
+
+                <tr>
+                    <th>Price:</th>
+                    <td><input type="number" id="price"/></td>
+                </tr>
+
+                <tr>
+                    <th>Qty:</th>
+                    <td><input type="number" id="qty"/></td>
+                </tr>
+
+
+                <tr>
+                    <th colspan="2">
+                        <button onclick="save()">Update</button>
+                        <hr/>
+                        <a href="api1.html">Back To List</a>
+                    </th>
+                </tr>
+            </table>
+       </body>
+</html>
